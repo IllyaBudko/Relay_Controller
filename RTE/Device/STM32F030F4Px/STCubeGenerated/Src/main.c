@@ -97,7 +97,14 @@ int main(void)
   MX_TIM14_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  if(HAL_TIM_Base_Start(&htim14) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if(HAL_TIM_Base_Start_IT(&htim14) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */

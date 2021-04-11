@@ -34,6 +34,7 @@ NVIC.NonMaskableInt_IRQn=true\:0\:0\:false\:false\:true\:false\:false
 NVIC.PendSV_IRQn=true\:0\:0\:false\:false\:true\:false\:false
 NVIC.SVC_IRQn=true\:0\:0\:false\:false\:true\:false\:false
 NVIC.SysTick_IRQn=true\:0\:0\:false\:false\:true\:false\:true
+NVIC.TIM14_IRQn=true\:0\:0\:false\:false\:true\:true\:true
 PA10.GPIOParameters=GPIO_Label
 PA10.GPIO_Label=I2C1_SDA_Display
 PA10.Mode=I2C
