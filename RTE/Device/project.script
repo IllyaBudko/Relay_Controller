@@ -1,0 +1,4 @@
+load STM32F030F4Px 
+project name STCubeGenerated 
+project toolchain "MDK-ARM V5" 
+project path "C:\Embedded\Serious_WorkSpace\Relay_Controller\RTE\Device\STM32F030F4Px\" 
