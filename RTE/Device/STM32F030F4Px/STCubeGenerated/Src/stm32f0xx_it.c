@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f0xx_it.h"
+#include "debounce.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -42,7 +43,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+extern uint32_t up_button_history;
+extern uint32_t down_button_history;
+extern uint32_t set_button_history;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -129,6 +132,9 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
+  update_button(&up_button_history,Up_Arrow_Key_GPIO_Port,Up_Arrow_Key_Pin);
+  update_button(&down_button_history,Down_Arrow_Key_GPIO_Port,Down_Arrow_Key_Pin);
+  update_button(&set_button_history,Set_Key_GPIO_Port,Set_Key_Pin);
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -146,11 +152,11 @@ void SysTick_Handler(void)
   */
 void TIM14_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM14_IRQn 0 */
 
+  /* USER CODE BEGIN TIM14_IRQn 0 */
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET);
   /* USER CODE END TIM14_IRQn 0 */
-  HAL_GPIO_TogglePin(Relay_Output_GPIO_Port, Relay_Output_Pin);
-  HAL_GPIO_TogglePin(Relay_Output_GPIO_Port, Relay_Output_Pin);
   HAL_TIM_IRQHandler(&htim14);
   /* USER CODE BEGIN TIM14_IRQn 1 */
 

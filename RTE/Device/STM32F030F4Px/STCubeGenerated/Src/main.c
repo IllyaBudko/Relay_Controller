@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "debounce.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -46,6 +46,12 @@ TIM_HandleTypeDef htim14;
 
 UART_HandleTypeDef huart1;
 
+uint32_t up_button_history = 0;
+uint32_t down_button_history = 0;
+uint32_t set_button_history = 0;
+
+  uint8_t pulse_val_idx = 0;
+  uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -72,9 +78,7 @@ static void MX_USART1_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
-
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -97,26 +101,59 @@ int main(void)
   MX_TIM14_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  /*
   if(HAL_TIM_Base_Start(&htim14) != HAL_OK)
   {
     Error_Handler();
   }
-  if(HAL_TIM_Base_Start_IT(&htim14) != HAL_OK)
+  */
+
+
+  if(HAL_TIM_PWM_Start(&htim14,TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
+    if(HAL_TIM_PWM_Start_IT(&htim14,TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(is_button_down(&down_button_history))
+    {
+      if(pulse_val_idx > 0)
+      {
+        pulse_val_idx -= 1;
+      }
+      while(is_button_down(&down_button_history));
+    }
+    if(is_button_down(&up_button_history))
+    {
+      if(pulse_val_idx <= 11)
+      {
+        pulse_val_idx += 1;
+      }
+      while(is_button_down(&up_button_history));
+    }
+    if(is_button_down(&set_button_history))
+    {
+      uint32_t tmp = pulse_val_arr[pulse_val_idx];
+      __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
+      while(is_button_down(&set_button_history));
+    }
+  }
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-}
+
 
 /**
   * @brief System Clock Configuration
@@ -218,22 +255,37 @@ static void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 0 */
 
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
   /* USER CODE BEGIN TIM14_Init 1 */
 
   /* USER CODE END TIM14_Init 1 */
   htim14.Instance = TIM14;
   htim14.Init.Prescaler = 7999;
   htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim14.Init.Period = 999;
+  htim14.Init.Period = 9999;
   htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim14) != HAL_OK)
   {
     Error_Handler();
   }
+  if (HAL_TIM_PWM_Init(&htim14) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim14, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN TIM14_Init 2 */
 
   /* USER CODE END TIM14_Init 2 */
+  HAL_TIM_MspPostInit(&htim14);
 
 }
 
@@ -253,7 +305,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 38400;
+  huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -291,7 +343,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : Down_Arrow_Key_Pin Set_Key_Pin Up_Arrow_Key_Pin */
   GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Relay_Output_Pin */

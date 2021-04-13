@@ -30,3 +30,4 @@
 .\objects\main.o: C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_tim_ex.h
 .\objects\main.o: C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h
 .\objects\main.o: C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h
+.\objects\main.o: ..\..\Libraries\Debounce\debounce.h

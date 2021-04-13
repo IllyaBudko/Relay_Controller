@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\Libraries\Debounce</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -381,6 +381,18 @@
       <Groups>
         <Group>
           <GroupName>Other</GroupName>
+          <Files>
+            <File>
+              <FileName>debounce.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\Debounce\debounce.c</FilePath>
+            </File>
+            <File>
+              <FileName>debounce.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Libraries\Debounce\debounce.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>:STM32CubeMX:Common Sources</GroupName>
