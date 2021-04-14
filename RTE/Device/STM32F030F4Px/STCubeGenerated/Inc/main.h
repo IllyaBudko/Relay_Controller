@@ -76,6 +76,18 @@ void Error_Handler(void);
 #define I2C1_SCL_Display_GPIO_Port GPIOA
 #define I2C1_SDA_Display_Pin GPIO_PIN_10
 #define I2C1_SDA_Display_GPIO_Port GPIOA
+
+#define Com_Anode_Port GPIOA
+#define Zero_Anode_Pin GPIO_PIN_9
+#define Ten_Anode_Pin GPIO_PIN_10
+#define Hundred_Anode_Pin GPIO_PIN_13
+
+#define BDC_Port GPIOA
+
+#define BDC_A_Pin GPIO_PIN_0
+#define BDC_B_Pin GPIO_PIN_1
+#define BDC_C_Pin GPIO_PIN_2
+#define BDC_D_Pin GPIO_PIN_3
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -52,6 +52,7 @@ uint32_t set_button_history = 0;
 
   uint8_t pulse_val_idx = 0;
   uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
+  
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -97,9 +98,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
+  //MX_I2C1_Init();
   MX_TIM14_Init();
-  MX_USART1_UART_Init();
+  //MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   /*
   if(HAL_TIM_Base_Start(&htim14) != HAL_OK)
@@ -341,9 +342,21 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(Relay_Output_GPIO_Port, Relay_Output_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : Down_Arrow_Key_Pin Set_Key_Pin Up_Arrow_Key_Pin */
-  GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin;
+  GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin|GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  
+  //common anode
+  GPIO_InitStruct.Pin = Zero_Anode_Pin|Ten_Anode_Pin|Hundred_Anode_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  
+  //bdc
+  GPIO_InitStruct.Pin = BDC_A_Pin|BDC_B_Pin|BDC_C_Pin|BDC_D_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Relay_Output_Pin */

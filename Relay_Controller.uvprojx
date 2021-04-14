@@ -392,6 +392,16 @@
               <FileType>5</FileType>
               <FilePath>..\..\Libraries\Debounce\debounce.h</FilePath>
             </File>
+            <File>
+              <FileName>display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display.c</FilePath>
+            </File>
+            <File>
+              <FileName>display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
