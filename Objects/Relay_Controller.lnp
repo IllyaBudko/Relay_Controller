@@ -1,5 +1,6 @@
 --cpu Cortex-M0
 ".\objects\debounce.o"
+".\objects\display.o"
 ".\objects\main.o"
 ".\objects\stm32f0xx_it.o"
 ".\objects\startup_stm32f030x6.o"

@@ -78,9 +78,10 @@ void Error_Handler(void);
 #define I2C1_SDA_Display_GPIO_Port GPIOA
 
 #define Com_Anode_Port GPIOA
+#define Com_Anode_hund_Port GPIOB
 #define Zero_Anode_Pin GPIO_PIN_9
 #define Ten_Anode_Pin GPIO_PIN_10
-#define Hundred_Anode_Pin GPIO_PIN_13
+#define Hundred_Anode_Pin GPIO_PIN_1
 
 #define BDC_Port GPIOA
 

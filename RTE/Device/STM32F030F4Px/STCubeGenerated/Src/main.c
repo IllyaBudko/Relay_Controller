@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "debounce.h"
+#include "display.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -50,8 +51,9 @@ uint32_t up_button_history = 0;
 uint32_t down_button_history = 0;
 uint32_t set_button_history = 0;
 
-  uint8_t pulse_val_idx = 0;
-  uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
+uint8_t pulse_val_idx = 0;
+uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
+uint8_t display_digits[11][3] = {{10,10,0},{10,1,0},{10,2,0},{10,3,0},{10,4,0},{10,5,0},{10,6,0},{10,7,0},{10,8,0},{10,9,0},{10,0,0}};
   
 /* USER CODE BEGIN PV */
 
@@ -64,7 +66,7 @@ static void MX_I2C1_Init(void);
 static void MX_TIM14_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -79,6 +81,9 @@ static void MX_USART1_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+  uint8_t zeros = 0;
+  uint8_t tens  = 0;
+  uint8_t hundreds = 0;
   /* USER CODE END 1 */
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -131,6 +136,7 @@ int main(void)
       {
         pulse_val_idx -= 1;
       }
+      set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
       while(is_button_down(&down_button_history));
     }
     if(is_button_down(&up_button_history))
@@ -139,6 +145,7 @@ int main(void)
       {
         pulse_val_idx += 1;
       }
+      set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
       while(is_button_down(&up_button_history));
     }
     if(is_button_down(&set_button_history))
@@ -147,6 +154,8 @@ int main(void)
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
       while(is_button_down(&set_button_history));
     }
+    write_display(hundreds,tens,zeros);
+
   }
     
     /* USER CODE END WHILE */
@@ -155,6 +164,13 @@ int main(void)
   }
   /* USER CODE END 3 */
 
+  void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds)
+  {
+    *zeros = display_digits[arr_idx][2];
+    *tens = display_digits[arr_idx][1];
+    *hundreds = display_digits[arr_idx][0];
+  }
+  
 
 /**
   * @brief System Clock Configuration
@@ -342,30 +358,35 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(Relay_Output_GPIO_Port, Relay_Output_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : Down_Arrow_Key_Pin Set_Key_Pin Up_Arrow_Key_Pin */
-  GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin|GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
+  GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   
   //common anode
-  GPIO_InitStruct.Pin = Zero_Anode_Pin|Ten_Anode_Pin|Hundred_Anode_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pin = Zero_Anode_Pin|Ten_Anode_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   
+  GPIO_InitStruct.Pin = Hundred_Anode_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  
   //bdc
   GPIO_InitStruct.Pin = BDC_A_Pin|BDC_B_Pin|BDC_C_Pin|BDC_D_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Relay_Output_Pin */
+  /*Configure GPIO pin : Relay_Output_Pin 
   GPIO_InitStruct.Pin = Relay_Output_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(Relay_Output_GPIO_Port, &GPIO_InitStruct);
-
+*/
 }
 
 /* USER CODE BEGIN 4 */
