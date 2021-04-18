@@ -81,40 +81,19 @@ void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundred
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
   uint8_t zeros = 0;
   uint8_t tens  = 0;
   uint8_t hundreds = 0;
-  /* USER CODE END 1 */
-  /* MCU Configuration--------------------------------------------------------*/
+  
+  volatile uint8_t x = 0;
+  volatile uint8_t y = 0;
+  volatile uint8_t z = 0;
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_I2C1_Init();
   MX_TIM14_Init();
-  //MX_USART1_UART_Init();
-  /* USER CODE BEGIN 2 */
-  /*
-  if(HAL_TIM_Base_Start(&htim14) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  */
-
 
   if(HAL_TIM_PWM_Start(&htim14,TIM_CHANNEL_1) != HAL_OK)
   {
@@ -124,44 +103,51 @@ int main(void)
   {
     Error_Handler();
   }
-  
-  /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
-  {
-    if(is_button_down(&down_button_history))
+  { 
+    if(is_button_down(&down_button_history) && (x == 0))
     {
       if(pulse_val_idx > 0)
       {
         pulse_val_idx -= 1;
       }
       set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
-      while(is_button_down(&down_button_history));
+      x = 1;
+//      while(is_button_down(&down_button_history));
     }
-    if(is_button_down(&up_button_history))
+    else if(!(is_button_down(&down_button_history)))
+    {
+      x = 0;
+    }
+    if(is_button_down(&up_button_history) && (y == 0))
     {
       if(pulse_val_idx < 10)
       {
         pulse_val_idx += 1;
       }
       set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
-      while(is_button_down(&up_button_history));
+      y = 1;
+//      while(is_button_down(&up_button_history));
     }
-    if(is_button_down(&set_button_history))
+    else if(!(is_button_down(&up_button_history)))
+    {
+      y = 0;
+    }
+    if(is_button_down(&set_button_history) && (z == 0))
     {
       uint32_t tmp = pulse_val_arr[pulse_val_idx];
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
-      while(is_button_down(&set_button_history));
+      z = 1;
+//      while(is_button_down(&set_button_history));
     }
-      write_display(hundreds,tens,zeros);
+    else if(!(is_button_down(&set_button_history)))
+    {
+      z = 0;
+    }
+    write_display(hundreds,tens,zeros);
   }
-    
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  }
+}
   /* USER CODE END 3 */
 
   void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds)
@@ -214,51 +200,6 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief I2C1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_I2C1_Init(void)
-{
-
-  /* USER CODE BEGIN I2C1_Init 0 */
-
-  /* USER CODE END I2C1_Init 0 */
-
-  /* USER CODE BEGIN I2C1_Init 1 */
-
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x2000090E;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Analogue filter
-  */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Digital filter
-  */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN I2C1_Init 2 */
-
-  /* USER CODE END I2C1_Init 2 */
-
-}
 
 /**
   * @brief TIM14 Initialization Function
@@ -306,46 +247,7 @@ static void MX_TIM14_Init(void)
 
 }
 
-/**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
 
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
