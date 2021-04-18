@@ -53,7 +53,8 @@ uint32_t set_button_history = 0;
 
 uint8_t pulse_val_idx = 0;
 uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
-uint8_t display_digits[11][3] = {{10,10,0},{10,1,0},{10,2,0},{10,3,0},{10,4,0},{10,5,0},{10,6,0},{10,7,0},{10,8,0},{10,9,0},{10,0,0}};
+uint8_t tens_arr[11] = {15,1,2,3,4,5,6,7,8,9,0};
+uint8_t hund_arr[11] = {15,15,15,15,15,15,15,15,15,15,1};
   
 /* USER CODE BEGIN PV */
 
@@ -123,7 +124,7 @@ int main(void)
   {
     Error_Handler();
   }
-
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -141,7 +142,7 @@ int main(void)
     }
     if(is_button_down(&up_button_history))
     {
-      if(pulse_val_idx <= 11)
+      if(pulse_val_idx < 10)
       {
         pulse_val_idx += 1;
       }
@@ -154,8 +155,7 @@ int main(void)
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
       while(is_button_down(&set_button_history));
     }
-    write_display(hundreds,tens,zeros);
-
+      write_display(hundreds,tens,zeros);
   }
     
     /* USER CODE END WHILE */
@@ -166,9 +166,9 @@ int main(void)
 
   void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds)
   {
-    *zeros = display_digits[arr_idx][2];
-    *tens = display_digits[arr_idx][1];
-    *hundreds = display_digits[arr_idx][0];
+    *zeros = 0;
+    *tens = tens_arr[arr_idx];
+    *hundreds = hund_arr[arr_idx];
   }
   
 
