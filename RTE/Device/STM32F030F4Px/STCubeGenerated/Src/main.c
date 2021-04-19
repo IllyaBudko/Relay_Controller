@@ -88,14 +88,14 @@ int main(void)
   
   uint8_t to_set_zeros   = 0;
   uint8_t to_set_tens    = 0;
-  uint8_t to_set_hudreds = 0;
+  uint8_t to_set_hundreds = 0;
   
   volatile uint8_t down_button = 0;
   volatile uint8_t up_button   = 0;
   volatile uint8_t set_button  = 0;
   
   uint8_t set_value = 0;
-  uint8_t to_set_equal_current = 1;
+  uint32_t counter = 0;
 
   HAL_Init();
 
@@ -118,9 +118,10 @@ int main(void)
     {
       if(pulse_val_idx > 0)
       {
+        prev_pulse_val_idx = pulse_val_idx;
         pulse_val_idx -= 1;
       }
-      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hudreds);
+      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       down_button = 1;
       set_value = 1;
     }
@@ -133,9 +134,10 @@ int main(void)
     {
       if(pulse_val_idx < 10)
       {
+        prev_pulse_val_idx = pulse_val_idx;
         pulse_val_idx += 1;
       }
-      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hudreds);
+      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       up_button = 1;
       set_value = 1;
     }
@@ -150,11 +152,11 @@ int main(void)
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
       set_button = 1;
       set_value = 0;
+      prev_pulse_val_idx = pulse_val_idx;
       
       current_zeros    = to_set_zeros;
       current_tens     = to_set_tens;
-      current_hundreds = to_set_hudreds;
-      
+      current_hundreds = to_set_hundreds;
     }
     else if(is_button_up(&set_button_history))
     {
@@ -165,11 +167,29 @@ int main(void)
     {
       write_display(0x0F,0x0F,0x0F);
       HAL_Delay(60);
-      write_display(to_set_hudreds,to_set_tens,to_set_zeros);
+      write_display(to_set_hundreds,to_set_tens,to_set_zeros);
     }
     else
     {
       write_display(current_hundreds,current_tens,current_zeros);
+    }
+    
+    if((counter < 100) && set_value)
+    {
+      counter++;
+    }
+    else if(set_value)
+    { 
+      uint8_t tmp = pulse_val_arr[prev_pulse_val_idx];
+      __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
+      counter = 0;
+      set_value = 0;
+     /* 
+      to_set_zeros    = current_zeros;
+      to_set_tens     = current_tens;
+      to_set_hundreds = current_hundreds;
+      */
+      
     }
   }
 }

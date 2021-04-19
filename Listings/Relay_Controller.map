@@ -1619,12 +1619,12 @@ Image Symbol Table
     i.is_button_down                         0x08001c78   Section        0  debounce.o(i.is_button_down)
     i.is_button_up                           0x08001c88   Section        0  debounce.o(i.is_button_up)
     i.main                                   0x08001c9c   Section        0  main.o(i.main)
-    i.read_button                            0x08001e00   Section        0  debounce.o(i.read_button)
-    i.set_digits                             0x08001e10   Section        0  main.o(i.set_digits)
-    i.update_button                          0x08001e2c   Section        0  debounce.o(i.update_button)
-    i.write_digit                            0x08001e4a   Section        0  display.o(i.write_digit)
-    i.write_display                          0x08001e90   Section        0  display.o(i.write_display)
-    .constdata                               0x08001ed0   Section       24  system_stm32f0xx.o(.constdata)
+    i.read_button                            0x08001e44   Section        0  debounce.o(i.read_button)
+    i.set_digits                             0x08001e54   Section        0  main.o(i.set_digits)
+    i.update_button                          0x08001e70   Section        0  debounce.o(i.update_button)
+    i.write_digit                            0x08001e8e   Section        0  display.o(i.write_digit)
+    i.write_display                          0x08001ed4   Section        0  display.o(i.write_display)
+    .constdata                               0x08001f14   Section       24  system_stm32f0xx.o(.constdata)
     .data                                    0x20000000   Section       82  main.o(.data)
     .data                                    0x20000054   Section        4  system_stm32f0xx.o(.data)
     .data                                    0x20000058   Section        9  stm32f0xx_hal.o(.data)
@@ -1815,20 +1815,21 @@ Image Symbol Table
     choose_anode                             0x08001c11   Thumb Code   100  display.o(i.choose_anode)
     is_button_down                           0x08001c79   Thumb Code    16  debounce.o(i.is_button_down)
     is_button_up                             0x08001c89   Thumb Code    18  debounce.o(i.is_button_up)
-    main                                     0x08001c9d   Thumb Code   330  main.o(i.main)
-    read_button                              0x08001e01   Thumb Code    16  debounce.o(i.read_button)
-    set_digits                               0x08001e11   Thumb Code    20  main.o(i.set_digits)
-    update_button                            0x08001e2d   Thumb Code    30  debounce.o(i.update_button)
-    write_digit                              0x08001e4b   Thumb Code    70  display.o(i.write_digit)
-    write_display                            0x08001e91   Thumb Code    64  display.o(i.write_display)
-    AHBPrescTable                            0x08001ed0   Data          16  system_stm32f0xx.o(.constdata)
-    APBPrescTable                            0x08001ee0   Data           8  system_stm32f0xx.o(.constdata)
-    Region$$Table$$Base                      0x08001ee8   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08001f08   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08001c9d   Thumb Code   396  main.o(i.main)
+    read_button                              0x08001e45   Thumb Code    16  debounce.o(i.read_button)
+    set_digits                               0x08001e55   Thumb Code    20  main.o(i.set_digits)
+    update_button                            0x08001e71   Thumb Code    30  debounce.o(i.update_button)
+    write_digit                              0x08001e8f   Thumb Code    70  display.o(i.write_digit)
+    write_display                            0x08001ed5   Thumb Code    64  display.o(i.write_display)
+    AHBPrescTable                            0x08001f14   Data          16  system_stm32f0xx.o(.constdata)
+    APBPrescTable                            0x08001f24   Data           8  system_stm32f0xx.o(.constdata)
+    Region$$Table$$Base                      0x08001f2c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08001f4c   Number         0  anon$$obj.o(Region$$Table)
     up_button_history                        0x20000000   Data           4  main.o(.data)
     down_button_history                      0x20000004   Data           4  main.o(.data)
     set_button_history                       0x20000008   Data           4  main.o(.data)
     pulse_val_idx                            0x2000000c   Data           1  main.o(.data)
+    prev_pulse_val_idx                       0x2000000d   Data           1  main.o(.data)
     pulse_val_arr                            0x20000010   Data          44  main.o(.data)
     tens_arr                                 0x2000003c   Data          11  main.o(.data)
     hund_arr                                 0x20000047   Data          11  main.o(.data)
@@ -1850,9 +1851,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000155
 
-  Load Region LR_1 (Base: 0x08000000, Size: 0x00001f6c, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x08000000, Size: 0x00001fb0, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00001f08, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00001f4c, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -1975,27 +1976,27 @@ Memory Map of the image
     0x08001c78   0x08001c78   0x00000010   Code   RO            3    i.is_button_down    debounce.o
     0x08001c88   0x08001c88   0x00000012   Code   RO            6    i.is_button_up      debounce.o
     0x08001c9a   0x08001c9a   0x00000002   PAD
-    0x08001c9c   0x08001c9c   0x00000164   Code   RO          193    i.main              main.o
-    0x08001e00   0x08001e00   0x00000010   Code   RO            7    i.read_button       debounce.o
-    0x08001e10   0x08001e10   0x0000001c   Code   RO          194    i.set_digits        main.o
-    0x08001e2c   0x08001e2c   0x0000001e   Code   RO            8    i.update_button     debounce.o
-    0x08001e4a   0x08001e4a   0x00000046   Code   RO          152    i.write_digit       display.o
-    0x08001e90   0x08001e90   0x00000040   Code   RO          153    i.write_display     display.o
-    0x08001ed0   0x08001ed0   0x00000018   Data   RO          369    .constdata          system_stm32f0xx.o
-    0x08001ee8   0x08001ee8   0x00000020   Data   RO         3836    Region$$Table       anon$$obj.o
+    0x08001c9c   0x08001c9c   0x000001a8   Code   RO          193    i.main              main.o
+    0x08001e44   0x08001e44   0x00000010   Code   RO            7    i.read_button       debounce.o
+    0x08001e54   0x08001e54   0x0000001c   Code   RO          194    i.set_digits        main.o
+    0x08001e70   0x08001e70   0x0000001e   Code   RO            8    i.update_button     debounce.o
+    0x08001e8e   0x08001e8e   0x00000046   Code   RO          152    i.write_digit       display.o
+    0x08001ed4   0x08001ed4   0x00000040   Code   RO          153    i.write_display     display.o
+    0x08001f14   0x08001f14   0x00000018   Data   RO          369    .constdata          system_stm32f0xx.o
+    0x08001f2c   0x08001f2c   0x00000020   Data   RO         3836    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x08001f08, Size: 0x00000064, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x08001f4c, Size: 0x00000064, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08001f08   0x00000052   Data   RW          196    .data               main.o
-    0x20000052   0x08001f5a   0x00000002   PAD
-    0x20000054   0x08001f5c   0x00000004   Data   RW          370    .data               system_stm32f0xx.o
-    0x20000058   0x08001f60   0x00000009   Data   RW          423    .data               stm32f0xx_hal.o
+    0x20000000   0x08001f4c   0x00000052   Data   RW          196    .data               main.o
+    0x20000052   0x08001f9e   0x00000002   PAD
+    0x20000054   0x08001fa0   0x00000004   Data   RW          370    .data               system_stm32f0xx.o
+    0x20000058   0x08001fa4   0x00000009   Data   RW          423    .data               stm32f0xx_hal.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000064, Load base: 0x08001f6c, Size: 0x0000076c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000064, Load base: 0x08001fb0, Size: 0x0000076c, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2014,7 +2015,7 @@ Image component sizes
 
         80          0          0          0          0     274030   debounce.o
        238          4          0          0          0       1521   display.o
-       810         58          0         82        268       5254   main.o
+       878         60          0         82        268       5413   main.o
         56         26        176          0       1536        784   startup_stm32f030x6.o
        196         38          0          9          0       8533   stm32f0xx_hal.o
        230         26          0          0          0      10797   stm32f0xx_hal_cortex.o
@@ -2028,7 +2029,7 @@ Image component sizes
          2          0         24          4          0       1619   system_stm32f0xx.o
 
     ----------------------------------------------------------------------
-      6774        418        232        100       1804     333426   Object Totals
+      6842        420        232        100       1804     333585   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         12          0          0          5          0          0   (incl. Padding)
 
@@ -2080,15 +2081,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      7712        434        232        100       1900     331566   Grand Totals
-      7712        434        232        100       1900     331566   ELF Image Totals
-      7712        434        232        100          0          0   ROM Totals
+      7780        436        232        100       1900     331725   Grand Totals
+      7780        436        232        100       1900     331725   ELF Image Totals
+      7780        436        232        100          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 7944 (   7.76kB)
+    Total RO  Size (Code + RO Data)                 8012 (   7.82kB)
     Total RW  Size (RW Data + ZI Data)              2000 (   1.95kB)
-    Total ROM Size (Code + RO Data + RW Data)       8044 (   7.86kB)
+    Total ROM Size (Code + RO Data + RW Data)       8112 (   7.92kB)
 
 ==============================================================================
 
