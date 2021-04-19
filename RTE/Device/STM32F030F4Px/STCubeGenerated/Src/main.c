@@ -22,9 +22,9 @@
 
 TIM_HandleTypeDef htim14;
 
-uint32_t up_button_history = 0;
-uint32_t down_button_history = 0;
-uint32_t set_button_history = 0;
+uint32_t up_button_history = 0xFFFFFFFFUL;
+uint32_t down_button_history = 0xFFFFFFFFUL;
+uint32_t set_button_history = 0xFFFFFFFFUL;
 
 
 uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
@@ -40,8 +40,8 @@ void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundred
 int main(void)
 {
   uint8_t current_zeros    = 0;
-  uint8_t current_tens     = 0;
-  uint8_t current_hundreds = 0;
+  uint8_t current_tens     = 15;
+  uint8_t current_hundreds = 15;
   
   uint8_t to_set_zeros   = 0;
   uint8_t to_set_tens    = 0;
