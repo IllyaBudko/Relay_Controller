@@ -11,5 +11,4 @@ void write_display(uint8_t hund_pos_val, uint8_t ten_pos_val, uint8_t zero_pos_v
 
 
 
-
 #endif /*_DISPLAY_H_*/

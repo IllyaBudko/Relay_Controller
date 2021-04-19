@@ -33,8 +33,8 @@ I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x5D802DBA)
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x5D802DBA)
 F (..\..\Libraries\Debounce\debounce.h)(0x6075049F)()
-F (.\display.c)(0x607C0A12)(--c99 --gnu -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\Libraries\Debounce -I ..\Relay_Controller-I.\RTE\Device\STM32F030F4Px-I.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc-I.\RTE\_Source-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030x6-o .\objects\display.o --omf_browse .\objects\display.crf --depend .\objects\display.d)
-I (display.h)(0x607C0A12)
+F (.\display.c)(0x607CE917)(--c99 --gnu -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\Libraries\Debounce -I ..\Relay_Controller-I.\RTE\Device\STM32F030F4Px-I.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc-I.\RTE\_Source-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030x6-o .\objects\display.o --omf_browse .\objects\display.crf --depend .\objects\display.d)
+I (display.h)(0x607CE917)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B96F8)
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x5D802DBA)
 I (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\stm32f0xx_hal_conf.h)(0x60762CF9)
@@ -66,8 +66,8 @@ I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x5D802DBA)
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x5D802DBA)
 I (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\main.h)(0x607C0A12)
-F (.\display.h)(0x607C0A12)()
-F (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Src\main.c)(0x607CC00A)(--c99 --gnu -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\Libraries\Debounce -I ..\Relay_Controller-I.\RTE\Device\STM32F030F4Px-I.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc-I.\RTE\_Source-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030x6-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\display.h)(0x607CE917)()
+F (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Src\main.c)(0x607CF0FE)(--c99 --gnu -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\Libraries\Debounce -I ..\Relay_Controller-I.\RTE\Device\STM32F030F4Px-I.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc-I.\RTE\_Source-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030x6-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\main.h)(0x607C0A12)
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h)(0x5D802DBA)
 I (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\stm32f0xx_hal_conf.h)(0x60762CF9)
@@ -100,7 +100,7 @@ I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h)(0x5D802DBA)
 I (C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h)(0x5D802DBA)
 I (..\..\Libraries\Debounce\debounce.h)(0x6075049F)
-I (..\Relay_Controller\display.h)(0x607C0A12)
+I (..\Relay_Controller\display.h)(0x607CE917)
 F (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\stm32f0xx_it.h)(0x607C0A12)()
 F (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Src\stm32f0xx_it.c)(0x607CBC1B)(--c99 --gnu -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\Libraries\Debounce -I ..\Relay_Controller-I.\RTE\Device\STM32F030F4Px-I.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc-I.\RTE\_Source-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include"-I"C:\Users\Illya Budko\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\STM32F0xx_HAL_Driver\Inc"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030x6-o .\objects\stm32f0xx_it.o --omf_browse .\objects\stm32f0xx_it.crf --depend .\objects\stm32f0xx_it.d)
 I (.\RTE\Device\STM32F030F4Px\STCubeGenerated\Inc\main.h)(0x607C0A12)

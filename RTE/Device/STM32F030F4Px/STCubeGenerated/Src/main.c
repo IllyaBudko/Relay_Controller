@@ -52,6 +52,7 @@ uint32_t down_button_history = 0;
 uint32_t set_button_history = 0;
 
 uint8_t pulse_val_idx = 0;
+uint8_t prev_pulse_val_idx = 0;
 uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
 uint8_t tens_arr[11] = {15,1,2,3,4,5,6,7,8,9,0};
 uint8_t hund_arr[11] = {15,15,15,15,15,15,15,15,15,15,1};
@@ -81,13 +82,20 @@ void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundred
   */
 int main(void)
 {
-  uint8_t zeros = 0;
-  uint8_t tens  = 0;
-  uint8_t hundreds = 0;
+  uint8_t current_zeros    = 0;
+  uint8_t current_tens     = 0;
+  uint8_t current_hundreds = 0;
   
-  volatile uint8_t x = 0;
-  volatile uint8_t y = 0;
-  volatile uint8_t z = 0;
+  uint8_t to_set_zeros   = 0;
+  uint8_t to_set_tens    = 0;
+  uint8_t to_set_hudreds = 0;
+  
+  volatile uint8_t down_button = 0;
+  volatile uint8_t up_button   = 0;
+  volatile uint8_t set_button  = 0;
+  
+  uint8_t set_value = 0;
+  uint8_t to_set_equal_current = 1;
 
   HAL_Init();
 
@@ -106,46 +114,63 @@ int main(void)
 
   while (1)
   { 
-    if(is_button_down(&down_button_history) && (x == 0))
+    if(is_button_down(&down_button_history) && (down_button == 0))
     {
       if(pulse_val_idx > 0)
       {
         pulse_val_idx -= 1;
       }
-      set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
-      x = 1;
-//      while(is_button_down(&down_button_history));
+      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hudreds);
+      down_button = 1;
+      set_value = 1;
     }
-    else if(!(is_button_down(&down_button_history)))
+    else if(is_button_up(&down_button_history))
     {
-      x = 0;
+      down_button = 0;
     }
-    if(is_button_down(&up_button_history) && (y == 0))
+    
+    if(is_button_down(&up_button_history) && (up_button == 0))
     {
       if(pulse_val_idx < 10)
       {
         pulse_val_idx += 1;
       }
-      set_digits(pulse_val_idx,&zeros,&tens,&hundreds);
-      y = 1;
-//      while(is_button_down(&up_button_history));
+      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hudreds);
+      up_button = 1;
+      set_value = 1;
     }
-    else if(!(is_button_down(&up_button_history)))
+    else if(is_button_up(&up_button_history))
     {
-      y = 0;
+      up_button = 0;
     }
-    if(is_button_down(&set_button_history) && (z == 0))
+    
+    if(is_button_down(&set_button_history) && (set_button == 0))
     {
       uint32_t tmp = pulse_val_arr[pulse_val_idx];
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
-      z = 1;
-//      while(is_button_down(&set_button_history));
+      set_button = 1;
+      set_value = 0;
+      
+      current_zeros    = to_set_zeros;
+      current_tens     = to_set_tens;
+      current_hundreds = to_set_hudreds;
+      
     }
-    else if(!(is_button_down(&set_button_history)))
+    else if(is_button_up(&set_button_history))
     {
-      z = 0;
+      set_button = 0;
     }
-    write_display(hundreds,tens,zeros);
+    
+    if(set_value)
+    {
+      write_display(0x0F,0x0F,0x0F);
+      HAL_Delay(60);
+      write_display(to_set_hudreds,to_set_tens,to_set_zeros);
+    }
+    else
+    {
+      write_display(current_hundreds,current_tens,current_zeros);
+    }
   }
 }
   /* USER CODE END 3 */
@@ -155,8 +180,7 @@ int main(void)
     *zeros = 0;
     *tens = tens_arr[arr_idx];
     *hundreds = hund_arr[arr_idx];
-  }
-  
+  } 
 
 /**
   * @brief System Clock Configuration
