@@ -14,72 +14,29 @@
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
-/* Includes ------------------------------------------------------------------*/
+  ******************************************************************************/
+
 #include "main.h"
 #include "debounce.h"
 #include "display.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim14;
-
-UART_HandleTypeDef huart1;
 
 uint32_t up_button_history = 0;
 uint32_t down_button_history = 0;
 uint32_t set_button_history = 0;
 
-uint8_t pulse_val_idx = 0;
-uint8_t prev_pulse_val_idx = 0;
+
 uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
 uint8_t tens_arr[11] = {15,1,2,3,4,5,6,7,8,9,0};
 uint8_t hund_arr[11] = {15,15,15,15,15,15,15,15,15,15,1};
-  
-/* USER CODE BEGIN PV */
 
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_TIM14_Init(void);
-static void MX_USART1_UART_Init(void);
-/* USER CODE BEGIN PFP */
+
 void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds);
-/* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
 int main(void)
 {
   uint8_t current_zeros    = 0;
@@ -93,6 +50,9 @@ int main(void)
   volatile uint8_t down_button = 0;
   volatile uint8_t up_button   = 0;
   volatile uint8_t set_button  = 0;
+  
+  uint8_t set_pulse_idx = 0;
+  uint8_t working_pulse_idx = 0;
   
   uint8_t set_value = 0;
   uint32_t counter = 0;
@@ -113,46 +73,49 @@ int main(void)
   }
 
   while (1)
-  { 
+  {
+    //check down button condition
     if(is_button_down(&down_button_history) && (down_button == 0))
     {
-      if(pulse_val_idx > 0)
+      if(working_pulse_idx > 0)
       {
-        prev_pulse_val_idx = pulse_val_idx;
-        pulse_val_idx -= 1;
+        working_pulse_idx -= 1;
       }
-      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
+      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       down_button = 1;
       set_value = 1;
+      counter = 0;
     }
     else if(is_button_up(&down_button_history))
     {
       down_button = 0;
     }
     
+    //check up button condition
     if(is_button_down(&up_button_history) && (up_button == 0))
     {
-      if(pulse_val_idx < 10)
+      if(working_pulse_idx < 10)
       {
-        prev_pulse_val_idx = pulse_val_idx;
-        pulse_val_idx += 1;
+        working_pulse_idx += 1;
       }
-      set_digits(pulse_val_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
+      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       up_button = 1;
       set_value = 1;
+      counter = 0;
     }
     else if(is_button_up(&up_button_history))
     {
       up_button = 0;
     }
     
+    //check set button condition
     if(is_button_down(&set_button_history) && (set_button == 0))
     {
-      uint32_t tmp = pulse_val_arr[pulse_val_idx];
+      set_pulse_idx = working_pulse_idx;
+      uint32_t tmp = pulse_val_arr[set_pulse_idx];
       __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
       set_button = 1;
       set_value = 0;
-      prev_pulse_val_idx = pulse_val_idx;
       
       current_zeros    = to_set_zeros;
       current_tens     = to_set_tens;
@@ -163,6 +126,25 @@ int main(void)
       set_button = 0;
     }
     
+    //revert back to previous setting if set isnt pressed in time
+    if((counter < 100) && set_value)
+    {
+      counter++;
+    }
+    else if(set_value)
+    {
+      working_pulse_idx = set_pulse_idx;
+      uint8_t tmp = pulse_val_arr[set_pulse_idx];
+      __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
+      counter = 0;
+      set_value = 0;
+      
+      to_set_zeros    = current_zeros;
+      to_set_tens     = current_tens;
+      to_set_hundreds = current_hundreds;
+    }
+    
+    //blinking display for set functionality
     if(set_value)
     {
       write_display(0x0F,0x0F,0x0F);
@@ -173,39 +155,16 @@ int main(void)
     {
       write_display(current_hundreds,current_tens,current_zeros);
     }
-    
-    if((counter < 100) && set_value)
-    {
-      counter++;
-    }
-    else if(set_value)
-    { 
-      uint8_t tmp = pulse_val_arr[prev_pulse_val_idx];
-      __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
-      counter = 0;
-      set_value = 0;
-     /* 
-      to_set_zeros    = current_zeros;
-      to_set_tens     = current_tens;
-      to_set_hundreds = current_hundreds;
-      */
-      
-    }
   }
 }
-  /* USER CODE END 3 */
 
-  void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds)
-  {
-    *zeros = 0;
-    *tens = tens_arr[arr_idx];
-    *hundreds = hund_arr[arr_idx];
-  } 
+void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds)
+{
+  *zeros = 0;
+  *tens = tens_arr[arr_idx];
+  *hundreds = hund_arr[arr_idx];
+} 
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -243,13 +202,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
-
-/**
-  * @brief TIM14 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_TIM14_Init(void)
 {
 
@@ -334,41 +286,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(Relay_Output_GPIO_Port, &GPIO_InitStruct);
 */
 }
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1)
-  {
-  }
-  /* USER CODE END Error_Handler_Debug */
+  while (1);
 }
 
-#ifdef  USE_FULL_ASSERT
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-}
-#endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
