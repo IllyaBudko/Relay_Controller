@@ -134,8 +134,6 @@ int main(void)
     else if(set_value)
     {
       working_pulse_idx = set_pulse_idx;
-      uint8_t tmp = pulse_val_arr[set_pulse_idx];
-      __HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,tmp);
       counter = 0;
       set_value = 0;
       
