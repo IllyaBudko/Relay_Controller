@@ -146,12 +146,12 @@ int main(void)
     if(set_value)
     {
       uint32_t i = 0;
-      for(i = 0; i < 15; i++)
+      for(i = 0; i < 10; i++)
       {
         write_display(0x0F,0x0F,0x0F);
       }
       
-      for(i = 0; i < 15; i++)
+      for(i = 0; i < 10; i++)
       {
         write_display(to_set_hundreds,to_set_tens,to_set_zeros);
       }
