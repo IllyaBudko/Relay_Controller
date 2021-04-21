@@ -127,7 +127,7 @@ int main(void)
     }
     
     //revert back to previous setting if set isnt pressed in time
-    if((counter < 100) && set_value)
+    if((counter < 50) && set_value)
     {
       counter++;
     }
@@ -145,9 +145,16 @@ int main(void)
     //blinking display for set functionality
     if(set_value)
     {
-      write_display(0x0F,0x0F,0x0F);
-      HAL_Delay(60);
-      write_display(to_set_hundreds,to_set_tens,to_set_zeros);
+      uint32_t i = 0;
+      for(i = 0; i < 15; i++)
+      {
+        write_display(0x0F,0x0F,0x0F);
+      }
+      
+      for(i = 0; i < 15; i++)
+      {
+        write_display(to_set_hundreds,to_set_tens,to_set_zeros);
+      }
     }
     else
     {
