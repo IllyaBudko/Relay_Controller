@@ -18,22 +18,22 @@ void write_digit(uint8_t pos_val)
 void choose_anode(uint8_t num_anode)
 {
   
-  HAL_GPIO_WritePin(Com_Anode_hund_Port,Hundred_Anode_Pin,GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(Com_Anode_Port,Zero_Anode_Pin,GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(Com_Anode_Port,Ten_Anode_Pin,GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Com_Anode_Hunds_Port,Hundred_Anode_Pin,GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Com_Anode_Zeros_Port,Zero_Anode_Pin,GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Com_Anode_Tens_Port,Ten_Anode_Pin,GPIO_PIN_RESET);
   
   switch (num_anode)
   {
     case 0:
-      HAL_GPIO_WritePin(Com_Anode_hund_Port,Hundred_Anode_Pin,GPIO_PIN_SET);
+      HAL_GPIO_WritePin(Com_Anode_Hunds_Port,Hundred_Anode_Pin,GPIO_PIN_SET);
       break;
 
     case 1:
-      HAL_GPIO_WritePin(Com_Anode_Port,Zero_Anode_Pin,GPIO_PIN_SET);
+      HAL_GPIO_WritePin(Com_Anode_Zeros_Port,Zero_Anode_Pin,GPIO_PIN_SET);
       break;
     
     case 2:
-      HAL_GPIO_WritePin(Com_Anode_Port,Ten_Anode_Pin,GPIO_PIN_SET);
+      HAL_GPIO_WritePin(Com_Anode_Tens_Port,Ten_Anode_Pin,GPIO_PIN_SET);
       break;
   }
 }
