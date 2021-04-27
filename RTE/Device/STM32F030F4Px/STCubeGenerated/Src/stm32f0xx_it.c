@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f0xx_it.h"
+#include "debounce.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -42,7 +43,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+extern uint32_t up_button_history;
+extern uint32_t down_button_history;
+extern uint32_t set_button_history;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -56,7 +59,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern TIM_HandleTypeDef htim14;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -129,6 +132,9 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
+  update_button(&up_button_history,Up_Arrow_Key_GPIO_Port,Up_Arrow_Key_Pin);
+  update_button(&down_button_history,Down_Arrow_Key_GPIO_Port,Down_Arrow_Key_Pin);
+  update_button(&set_button_history,Set_Key_GPIO_Port,Set_Key_Pin);
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -140,6 +146,21 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f0xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles TIM14 global interrupt.
+  */
+void TIM14_IRQHandler(void)
+{
+
+  /* USER CODE BEGIN TIM14_IRQn 0 */
+
+  /* USER CODE END TIM14_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim14);
+  /* USER CODE BEGIN TIM14_IRQn 1 */
+
+  /* USER CODE END TIM14_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

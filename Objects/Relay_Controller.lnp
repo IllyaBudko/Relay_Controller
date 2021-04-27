@@ -1,6 +1,11 @@
 --cpu Cortex-M0
+".\objects\debounce.o"
+".\objects\display.o"
 ".\objects\main.o"
 ".\objects\stm32f0xx_it.o"
+".\objects\startup_stm32f030x6.o"
+".\objects\stm32f0xx_hal_msp.o"
+".\objects\system_stm32f0xx.o"
 ".\objects\stm32f0xx_hal.o"
 ".\objects\stm32f0xx_hal_adc.o"
 ".\objects\stm32f0xx_hal_adc_ex.o"
@@ -61,9 +66,6 @@
 ".\objects\stm32f0xx_ll_usb.o"
 ".\objects\stm32f0xx_ll_utils.o"
 ".\objects\stm32f0xx_ll.o"
-".\objects\startup_stm32f030x6.o"
-".\objects\stm32f0xx_hal_msp.o"
-".\objects\system_stm32f0xx.o"
 --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Relay_Controller.map" -o .\Objects\Relay_Controller.axf

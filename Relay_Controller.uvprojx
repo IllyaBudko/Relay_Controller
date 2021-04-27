@@ -10,6 +10,7 @@
       <TargetName>Source</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -257,17 +258,17 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
@@ -277,7 +278,7 @@
                 <Size>0x4000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -337,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\..\Libraries\Debounce;..\Relay_Controller</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -379,7 +380,29 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Other</GroupName>
+          <Files>
+            <File>
+              <FileName>debounce.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\Debounce\debounce.c</FilePath>
+            </File>
+            <File>
+              <FileName>debounce.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Libraries\Debounce\debounce.h</FilePath>
+            </File>
+            <File>
+              <FileName>display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display.c</FilePath>
+            </File>
+            <File>
+              <FileName>display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>:STM32CubeMX:Common Sources</GroupName>

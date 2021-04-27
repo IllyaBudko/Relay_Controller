@@ -50,6 +50,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -62,11 +64,11 @@ void Error_Handler(void);
 #define UART1_TX_Debug_GPIO_Port GPIOA
 #define UART2_RX_Debug_Pin GPIO_PIN_3
 #define UART2_RX_Debug_GPIO_Port GPIOA
-#define Down_Arrow_Key_Pin GPIO_PIN_5
+#define Down_Arrow_Key_Pin GPIO_PIN_7
 #define Down_Arrow_Key_GPIO_Port GPIOA
 #define Set_Key_Pin GPIO_PIN_6
 #define Set_Key_GPIO_Port GPIOA
-#define Up_Arrow_Key_Pin GPIO_PIN_7
+#define Up_Arrow_Key_Pin GPIO_PIN_5
 #define Up_Arrow_Key_GPIO_Port GPIOA
 #define Relay_Output_Pin GPIO_PIN_1
 #define Relay_Output_GPIO_Port GPIOB
@@ -74,6 +76,20 @@ void Error_Handler(void);
 #define I2C1_SCL_Display_GPIO_Port GPIOA
 #define I2C1_SDA_Display_Pin GPIO_PIN_10
 #define I2C1_SDA_Display_GPIO_Port GPIOA
+
+#define Com_Anode_Zeros_Port GPIOA
+#define Com_Anode_Tens_Port GPIOA
+#define Com_Anode_Hunds_Port GPIOB
+#define Zero_Anode_Pin GPIO_PIN_10
+#define Ten_Anode_Pin GPIO_PIN_9
+#define Hundred_Anode_Pin GPIO_PIN_1
+
+#define BDC_Port GPIOA
+
+#define BDC_A_Pin GPIO_PIN_3
+#define BDC_B_Pin GPIO_PIN_1
+#define BDC_C_Pin GPIO_PIN_0
+#define BDC_D_Pin GPIO_PIN_2
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
