@@ -263,7 +263,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : Down_Arrow_Key_Pin Set_Key_Pin Up_Arrow_Key_Pin */
   GPIO_InitStruct.Pin = Down_Arrow_Key_Pin|Set_Key_Pin|Up_Arrow_Key_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   
   //common anode
