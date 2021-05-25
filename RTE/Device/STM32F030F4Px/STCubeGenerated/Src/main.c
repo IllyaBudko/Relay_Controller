@@ -22,8 +22,6 @@
 
 TIM_HandleTypeDef htim14;
 
-uint32_t up_button_history = 0xFFFFFFFFUL;
-uint32_t down_button_history = 0xFFFFFFFFUL;
 uint32_t set_button_history = 0xFFFFFFFFUL;
 
 
@@ -56,6 +54,9 @@ int main(void)
   
   uint8_t set_value = 0;
   uint32_t counter = 0;
+  
+  uint8_t encoder_state = R_START;
+  uint8_t encoder_counter = 0;
 
   HAL_Init();
 
@@ -74,39 +75,17 @@ int main(void)
 
   while (1)
   {
-    //check down button condition
-    if(is_button_down(&down_button_history) && (down_button == 0))
+    uint8_t result = encoder_process(Up_Arrow_Key_GPIO_Port,Up_Arrow_Key_Pin,Down_Arrow_Key_GPIO_Port,Down_Arrow_Key_Pin,&encoder_state);
+    if(result == DIR_CW)
     {
-      if(working_pulse_idx > 0)
-      {
-        working_pulse_idx -= 1;
-      }
-      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
-      down_button = 1;
-      set_value = 1;
-      counter = 0;
+      
     }
-    else if(is_button_up(&down_button_history))
+    else if(result == DIR_CCW)
     {
-      down_button = 0;
+      
     }
     
-    //check up button condition
-    if(is_button_down(&up_button_history) && (up_button == 0))
-    {
-      if(working_pulse_idx < 10)
-      {
-        working_pulse_idx += 1;
-      }
-      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
-      up_button = 1;
-      set_value = 1;
-      counter = 0;
-    }
-    else if(is_button_up(&up_button_history))
-    {
-      up_button = 0;
-    }
+    
     
     //check set button condition
     if(is_button_down(&set_button_history) && (set_button == 0))
