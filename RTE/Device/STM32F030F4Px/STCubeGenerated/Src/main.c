@@ -46,14 +46,13 @@ int main(void)
   uint8_t to_set_hundreds = 0;
   
   volatile uint8_t set_button  = 0;
+  uint8_t set_value = 0;
   
   uint8_t set_pulse_idx = 0;
   uint8_t working_pulse_idx = 0;
-
-  uint8_t set_value = 0;
-  uint32_t counter = 0;
   
-  uint32_t i = 0;
+  uint32_t counter = 0;
+  uint32_t range = 0;
   
   uint8_t encoder_state = R_START;
 
@@ -74,6 +73,8 @@ int main(void)
 
   while (1)
   {
+    
+    //process encoder input
     uint8_t result = encoder_process(&encoder_state);
     if((result == DIR_CW) && (working_pulse_idx < 10))
     {
@@ -110,29 +111,11 @@ int main(void)
       set_button = 0;
     }
 
-    //blinking display for set functionality
-//    if(set_value)
-//    {
-//      for(i = 0; i < 10; i++)
-//      {
-//        write_display(0x0F,0x0F,0x0F);
-//      }
-//      
-//      for(i = 0; i < 10; i++)
-//      {
-//        write_display(to_set_hundreds,to_set_tens,to_set_zeros);
-//      }
-//    }
-//    else
-//    {
-//      write_display(current_hundreds,current_tens,current_zeros);
-//    }
-    
-        //revert back to previous setting if set isnt pressed in time
+    //blinking functionality while waiting for set
     if(counter < 1000 && set_value)
     {
       counter++;
-      uint32_t range = (counter / 5) % 5;
+      range = (counter / 5) % 5;
 
       if((range / 2) == 0)
       {
@@ -143,6 +126,7 @@ int main(void)
         write_display(to_set_hundreds,to_set_tens,to_set_zeros);
       }
     }
+    //after waiting for set times out, values set back to previous
     else if(set_value)
     {
       working_pulse_idx = set_pulse_idx;
@@ -156,6 +140,7 @@ int main(void)
     {
       write_display(current_hundreds,current_tens,current_zeros);
     }
+    
   }
 }
 
