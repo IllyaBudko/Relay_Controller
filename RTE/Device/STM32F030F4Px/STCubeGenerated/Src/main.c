@@ -129,15 +129,16 @@ int main(void)
 //    }
     
         //revert back to previous setting if set isnt pressed in time
-    if(counter < 50 && set_value)
+    if(counter < 1000 && set_value)
     {
       counter++;
-      //these for loops from before are breaking it
-      for(i = 0; i < 10; i++)
+      uint32_t range = (counter / 5) % 5;
+
+      if((range / 2) == 0)
       {
         write_display(0x0F,0x0F,0x0F);
       }
-      for(i = 0; i < 10; i++)
+      else
       {
         write_display(to_set_hundreds,to_set_tens,to_set_zeros);
       }
