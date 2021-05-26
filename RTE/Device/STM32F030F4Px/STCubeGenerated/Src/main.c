@@ -78,7 +78,7 @@ int main(void)
       encoder_counter++;
       working_pulse_idx += 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
-      set_value = 1;
+//      set_value = 1;
       counter = 0;
     }
     else if(result == DIR_CCW  && (working_pulse_idx > 0))
@@ -86,7 +86,7 @@ int main(void)
       encoder_counter--;
       working_pulse_idx -= 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
-      set_value = 1;
+ //     set_value = 1;
       counter = 0;
     }
 
@@ -128,14 +128,13 @@ int main(void)
     }
     
         //revert back to previous setting if set isnt pressed in time
-    if((counter < 50) && set_value)
+    if(counter < 50 && set_value)
     {
       counter++;
     }
     else if(set_value)
     {
       working_pulse_idx = set_pulse_idx;
-      counter = 0;
       set_value = 0;
       
       to_set_zeros    = current_zeros;
