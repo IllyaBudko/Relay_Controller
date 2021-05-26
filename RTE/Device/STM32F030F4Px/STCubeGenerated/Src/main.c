@@ -20,21 +20,19 @@
 #include "debounce.h"
 #include "display.h"
 
-TIM_HandleTypeDef htim14;
-
-uint32_t set_button_history = 0xFFFFFFFFUL;
-
-
-uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
-uint8_t tens_arr[11] = {15,1,2,3,4,5,6,7,8,9,0};
-uint8_t hund_arr[11] = {15,15,15,15,15,15,15,15,15,15,1};
-
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM14_Init(void);
 
 void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds);
 
+TIM_HandleTypeDef htim14;
+
+uint32_t pulse_val_arr[11] = {0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
+uint8_t tens_arr[11] = {15,1,2,3,4,5,6,7,8,9,0};
+uint8_t hund_arr[11] = {15,15,15,15,15,15,15,15,15,15,1};
+
+uint32_t set_button_history = 0xFFFFFFFFUL;
 int8_t encoder_counter = 0;
 
 int main(void)
@@ -51,12 +49,11 @@ int main(void)
   
   uint8_t set_pulse_idx = 0;
   uint8_t working_pulse_idx = 0;
-  
+
   uint8_t set_value = 0;
   uint32_t counter = 0;
   
   uint8_t encoder_state = R_START;
-
 
   HAL_Init();
 
@@ -78,6 +75,7 @@ int main(void)
     uint8_t result = encoder_process(&encoder_state);
     if((result == DIR_CW) && (working_pulse_idx < 10))
     {
+      encoder_counter++;
       working_pulse_idx += 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       set_value = 1;
@@ -85,14 +83,13 @@ int main(void)
     }
     else if(result == DIR_CCW  && (working_pulse_idx > 0))
     {
+      encoder_counter--;
       working_pulse_idx -= 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
       set_value = 1;
       counter = 0;
     }
-    
-    
-    
+
     //check set button condition
     if(is_button_down(&set_button_history) && (set_button == 0))
     {
@@ -110,23 +107,7 @@ int main(void)
     {
       set_button = 0;
     }
-    
-    //revert back to previous setting if set isnt pressed in time
-    if((counter < 50) && set_value)
-    {
-      counter++;
-    }
-    else if(set_value)
-    {
-      working_pulse_idx = set_pulse_idx;
-      counter = 0;
-      set_value = 0;
-      
-      to_set_zeros    = current_zeros;
-      to_set_tens     = current_tens;
-      to_set_hundreds = current_hundreds;
-    }
-    
+
     //blinking display for set functionality
     if(set_value)
     {
@@ -144,6 +125,22 @@ int main(void)
     else
     {
       write_display(current_hundreds,current_tens,current_zeros);
+    }
+    
+        //revert back to previous setting if set isnt pressed in time
+    if((counter < 50) && set_value)
+    {
+      counter++;
+    }
+    else if(set_value)
+    {
+      working_pulse_idx = set_pulse_idx;
+      counter = 0;
+      set_value = 0;
+      
+      to_set_zeros    = current_zeros;
+      to_set_tens     = current_tens;
+      to_set_hundreds = current_hundreds;
     }
   }
 }
