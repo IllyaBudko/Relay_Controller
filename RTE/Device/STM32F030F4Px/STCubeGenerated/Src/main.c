@@ -78,7 +78,7 @@ int main(void)
       encoder_counter++;
       working_pulse_idx += 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
-//      set_value = 1;
+      set_value = 1;
       counter = 0;
     }
     else if(result == DIR_CCW  && (working_pulse_idx > 0))
@@ -86,7 +86,7 @@ int main(void)
       encoder_counter--;
       working_pulse_idx -= 1;
       set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
- //     set_value = 1;
+      set_value = 1;
       counter = 0;
     }
 
@@ -111,16 +111,16 @@ int main(void)
     //blinking display for set functionality
     if(set_value)
     {
-      uint32_t i = 0;
-      for(i = 0; i < 10; i++)
-      {
-        write_display(0x0F,0x0F,0x0F);
-      }
-      
-      for(i = 0; i < 10; i++)
-      {
+//      uint32_t i = 0;
+//      for(i = 0; i < 10; i++)
+//      {
+//        write_display(0x0F,0x0F,0x0F);
+//      }
+//      
+//      for(i = 0; i < 10; i++)
+//      {
         write_display(to_set_hundreds,to_set_tens,to_set_zeros);
-      }
+//      }
     }
     else
     {
@@ -128,7 +128,7 @@ int main(void)
     }
     
         //revert back to previous setting if set isnt pressed in time
-    if(counter < 50 && set_value)
+    if(counter < 1000 && set_value)
     {
       counter++;
     }
