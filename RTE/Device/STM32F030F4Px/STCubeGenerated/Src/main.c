@@ -35,6 +35,8 @@ static void MX_TIM14_Init(void);
 
 void set_digits(uint8_t arr_idx, uint8_t *zeros, uint8_t *tens, uint8_t *hundreds);
 
+int8_t encoder_counter = 0;
+
 int main(void)
 {
   uint8_t current_zeros    = 0;
@@ -45,8 +47,6 @@ int main(void)
   uint8_t to_set_tens    = 0;
   uint8_t to_set_hundreds = 0;
   
-  volatile uint8_t down_button = 0;
-  volatile uint8_t up_button   = 0;
   volatile uint8_t set_button  = 0;
   
   uint8_t set_pulse_idx = 0;
@@ -56,7 +56,7 @@ int main(void)
   uint32_t counter = 0;
   
   uint8_t encoder_state = R_START;
-  uint8_t encoder_counter = 0;
+
 
   HAL_Init();
 
@@ -75,14 +75,20 @@ int main(void)
 
   while (1)
   {
-    uint8_t result = encoder_process(Up_Arrow_Key_GPIO_Port,Up_Arrow_Key_Pin,Down_Arrow_Key_GPIO_Port,Down_Arrow_Key_Pin,&encoder_state);
-    if(result == DIR_CW)
+    uint8_t result = encoder_process(&encoder_state);
+    if((result == DIR_CW) && (working_pulse_idx < 10))
     {
-      
+      working_pulse_idx += 1;
+      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
+      set_value = 1;
+      counter = 0;
     }
-    else if(result == DIR_CCW)
+    else if(result == DIR_CCW  && (working_pulse_idx > 0))
     {
-      
+      working_pulse_idx -= 1;
+      set_digits(working_pulse_idx,&to_set_zeros,&to_set_tens,&to_set_hundreds);
+      set_value = 1;
+      counter = 0;
     }
     
     

@@ -132,8 +132,6 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
-  update_button(&up_button_history,Up_Arrow_Key_GPIO_Port,Up_Arrow_Key_Pin);
-  update_button(&down_button_history,Down_Arrow_Key_GPIO_Port,Down_Arrow_Key_Pin);
   update_button(&set_button_history,Set_Key_GPIO_Port,Set_Key_Pin);
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
