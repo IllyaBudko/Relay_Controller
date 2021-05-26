@@ -115,9 +115,9 @@ int main(void)
     if(counter < 1000 && set_value)
     {
       counter++;
-      range = (counter / 5) % 5;
+      range = (counter / 25) % 2;
 
-      if((range / 2) == 0)
+      if(range)
       {
         write_display(0x0F,0x0F,0x0F);
       }
