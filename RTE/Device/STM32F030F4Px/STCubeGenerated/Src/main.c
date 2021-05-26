@@ -53,6 +53,8 @@ int main(void)
   uint8_t set_value = 0;
   uint32_t counter = 0;
   
+  uint32_t i = 0;
+  
   uint8_t encoder_state = R_START;
 
   HAL_Init();
@@ -109,9 +111,8 @@ int main(void)
     }
 
     //blinking display for set functionality
-    if(set_value)
-    {
-//      uint32_t i = 0;
+//    if(set_value)
+//    {
 //      for(i = 0; i < 10; i++)
 //      {
 //        write_display(0x0F,0x0F,0x0F);
@@ -119,18 +120,27 @@ int main(void)
 //      
 //      for(i = 0; i < 10; i++)
 //      {
-        write_display(to_set_hundreds,to_set_tens,to_set_zeros);
+//        write_display(to_set_hundreds,to_set_tens,to_set_zeros);
 //      }
-    }
-    else
-    {
-      write_display(current_hundreds,current_tens,current_zeros);
-    }
+//    }
+//    else
+//    {
+//      write_display(current_hundreds,current_tens,current_zeros);
+//    }
     
         //revert back to previous setting if set isnt pressed in time
-    if(counter < 1000 && set_value)
+    if(counter < 50 && set_value)
     {
       counter++;
+      //these for loops from before are breaking it
+      for(i = 0; i < 10; i++)
+      {
+        write_display(0x0F,0x0F,0x0F);
+      }
+      for(i = 0; i < 10; i++)
+      {
+        write_display(to_set_hundreds,to_set_tens,to_set_zeros);
+      }
     }
     else if(set_value)
     {
@@ -140,6 +150,10 @@ int main(void)
       to_set_zeros    = current_zeros;
       to_set_tens     = current_tens;
       to_set_hundreds = current_hundreds;
+    }
+    else
+    {
+      write_display(current_hundreds,current_tens,current_zeros);
     }
   }
 }
